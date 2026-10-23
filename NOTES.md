@@ -13,8 +13,8 @@
 | Item | sweet (SM7150) | lemon (SM6115) | Notes |
 |------|----------------|----------------|-------|
 | CPU | 2×A76 + 6×A55 | 4×A73 + 4×A53 | Different core types, same 8 cores |
-| GICD | 0x17a00000 | ? | Need live DTB |
-| GICR | 0x17a60000 | ? | Need live DTB |
+| GICD | 0x17a00000 | 0xf200000 | Verified from live DTB (Bengal/SM6115) |
+| GICR | 0x17a60000 | 0xf260000 (est) | Verified from live DTB |
 | Framebuffer | 0x9c000000 | ? | ABL leaves splash at different addr |
 | UFS | 0x01d84000 | ? | Different controller |
 | RPMh | ? | ? | Different regulator layout |
@@ -84,4 +84,4 @@ User needs to provide (from phone in fastboot/EDL):
 
 **2026-10-23** - Ported the full ios-sweet (SM7150) codebase into ios-lemon as the starting scaffold: copied and renamed `shim/`, `tools/`, `xnu/patches/` (80+ patches), `.github/workflows/xnu.yml`, `docs/`, `.gitignore` (sweet -> lemon identifiers). Lemon-specific hardware addresses remain placeholders pending the live DTB from stock boot.img (GIC, framebuffer, UFS, RPMh). Next: extract stock DTB, update mkadt.py/shim addresses, build kernel via GitHub Actions.
 
-**2026-10-24** - Inspected session folder and `..\ios-sweet-main`. Verified complete kernel scaffold porting (85 XNU patches, bare-metal shim, ADT generation, tools, CI workflows). Validated all Python tools successfully. Awaiting user-provided stock `boot.img` for live DTB extraction and hardware-specific MMIO address tuning for Snapdragon 662 (SM6115).
+**2026-10-24** - Inspected session folder and `..\ios-sweet-main`. Verified complete kernel scaffold porting (85 XNU patches, bare-metal shim, ADT generation, tools, CI workflows). Validated all Python tools successfully. Downloaded stock device trees (`dtb.img`) for Redmi 9T / 9T NFC (`citrus`/`lime`, SM6115) from GitHub device tree sources, extracted live FDT blobs, and verified GICD base address (`0xf200000`).
